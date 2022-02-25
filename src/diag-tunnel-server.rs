@@ -23,19 +23,21 @@ async fn main() -> Result<(), Box<dyn Error>> {
   loop {
       println!("waiting for incoming diag request connections");
       let (mut diag_client, _diag_client_addr) = diag_listener.accept().await?;
-      let (mut diag_client_recv, mut diag_client_send) = diag_client.split();
-      println!("got diag request connection");
-      println!("piping data");
-      tokio::select! {
-        _ = io::copy(&mut diag_client_recv, &mut vehicle_client_send) => {
-          // diag_client_send.shutdown().await?;
-          println!("diag_client_recv finished");
+      tokio::spawn(async move {
+        let (mut diag_client_recv, mut diag_client_send) = diag_client.split();
+        println!("got diag request connection");
+        println!("piping data");
+        tokio::select! {
+          _ = io::copy(&mut diag_client_recv, &mut vehicle_client_send) => {
+            // diag_client_send.shutdown().await?;
+            println!("diag_client_recv finished");
+          }
+          _ = io::copy(&mut vehicle_client_recv, &mut diag_client_send) => {
+            println!("vehicle_client_recv finished");
+          }
         }
-        _ = io::copy(&mut vehicle_client_recv, &mut diag_client_send) => {
-          println!("vehicle_client_recv finished");
-        }
-      }
-      // TODO: which to shutdown?
-      println!("diag connection finished?");
+        // TODO: which to shutdown?
+        println!("diag connection finished?");
+      });
   }
 }
