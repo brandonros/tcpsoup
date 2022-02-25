@@ -1,5 +1,8 @@
 #[macro_use]
 extern crate tokio;
+/* logging */
+extern crate log;
+extern crate env_logger;
 
 use tokio::io;
 use tokio::io::AsyncWriteExt;
@@ -10,6 +13,7 @@ type BoxedError = Box<dyn std::error::Error + Sync + Send + 'static>;
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn Error>> {
+  env_logger::init();
   let vehicle_listener = TcpListener::bind(&"0.0.0.0:5555".to_string()).await?;
   let diag_listener = TcpListener::bind(&"127.0.0.1:3000".to_string()).await?;
   loop {

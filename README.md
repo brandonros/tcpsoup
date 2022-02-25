@@ -12,6 +12,6 @@ Really confusing TCP tunnels
 `vehicle-tunnel` also connects to `vehicle-client:127.0.0.1:3000`
 
 1. On diag machine: Start `diag-tunnel`, record `DIAG_TUNNEL_EXTERNAL_IP`, unblock port `5555` to external internet.
-2. On vehicle machine: Start `vehicle-client`.
+2. On vehicle machine: Start `vehicle-server`.
 3. On vehicle machine: Set `DIAG_PROXY_EXTERNAL_IP` then start `vehicle-tunnel`.
-4. On diag machine: Hit `http://127.0.0.1:3000/ping`, expect request to go to `diag-tunnel->vehicle-tunnel->vehicle-client` and back.
+4. On diag machine: Run `diag-client`, expect request to go to `diag-client->diag-tunnel->vehicle-tunnel->vehicle-server` and back.

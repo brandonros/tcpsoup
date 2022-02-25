@@ -1,5 +1,8 @@
 #[macro_use]
 extern crate tokio;
+/* logging */
+extern crate log;
+extern crate env_logger;
 
 use tokio::io;
 use tokio::io::AsyncWriteExt;
@@ -8,6 +11,7 @@ use std::error::Error;
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn Error>> {
+  env_logger::init();
   loop {
     // 1. connect to vehicle
     println!("connecting to vehicle client");
