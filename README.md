@@ -5,6 +5,19 @@ Really confusing TCP tunnels
 
 `diag-client` wants to talk to `vehicle-server` but `vehicle-server` has port blocked. However, `vehicle` can reach `diag` port wise. Therefore, the flow of traffic must be intercepted and reversed.
 
+## SSH remote port forwarding equivalent
+
+```shell
+# From diag
+C:\\OpenSSH-Win32\\PsExec.exe -s C:\\OpenSSH-Win32\\sshd.exe -o GatewayPorts=yes
+# From vehicle
+C:\\OpenSSH-Win32\\ssh.exe -p 5555 -N -R 3000:127.0.0.1:3000 user@diag
+# Result
+http://127.0.0.1:3000 on diag will go to http://127.0.0.1 on vehicle and back
+```
+
+Performance is not acceptable since SSH port forwarding is TCP over TCP (200ms+)
+
 ## TODO
 
 How to achieve this with `netcat`, `socat`, or equivalent instead?

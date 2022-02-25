@@ -23,9 +23,9 @@ async fn main() -> Result<(), Box<dyn Error>> {
     .uri(Uri::from_str(&request_url).unwrap())
     .body(Body::empty())
     .unwrap();
-  println!("requesting {}", request_url);
+  println!("requesting to diag-tunnel-server from diag-client {}", request_url);
   let response = client.request(request).await.unwrap();
-  println!("got response {}", response.status());
+  println!("got response from diag-tunnel-server {}", response.status());
   let response_body_bytes = hyper::body::to_bytes(response.into_body()).await.unwrap();
   println!("{:?}", response_body_bytes);
   Ok(())

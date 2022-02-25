@@ -18,7 +18,7 @@ async fn ping_route(_request_payload: web::Payload) -> Result<HttpResponse, Erro
 async fn main() -> std::io::Result<()> {
     std::env::set_var("RUST_LOG", "debug");
     env_logger::init();
-    println!("binding to 0.0.0.0:3000");
+    println!("binding vehicle-server to 0.0.0.0:3000");
     HttpServer::new(|| {
         App::new()
             .wrap(Logger::new("%a \"%r\" %s %b \"%{Referer}i\" \"%{User-Agent}i\" %Dms"))
