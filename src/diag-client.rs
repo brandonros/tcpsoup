@@ -11,6 +11,7 @@ use std::error::Error;
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn Error>> {
+  std::env::set_var("RUST_LOG", "debug");
   env_logger::init();
   // fire request
   let server_ip = String::from("127.0.0.1");
@@ -22,13 +23,10 @@ async fn main() -> Result<(), Box<dyn Error>> {
     .uri(Uri::from_str(&request_url).unwrap())
     .body(Body::empty())
     .unwrap();
+  println!("requesting {}", request_url);
   let response = client.request(request).await.unwrap();
-  // check response
-  if response.status() != 200 {
-    panic!("bad status: {}", response.status());
-  }
+  println!("got response {}", response.status());
   let response_body_bytes = hyper::body::to_bytes(response.into_body()).await.unwrap();
   println!("{:?}", response_body_bytes);
   Ok(())
 }
-

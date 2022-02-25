@@ -10,9 +10,12 @@ use std::error::Error;
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn Error>> {
+  std::env::set_var("RUST_LOG", "debug");
   env_logger::init();
   let vehicle_listener = TcpListener::bind(&"0.0.0.0:5555".to_string()).await?;
   let diag_listener = TcpListener::bind(&"127.0.0.1:3000".to_string()).await?;
+  println!("bound to 0.0.0.0:5555");
+  println!("bound to 127.0.0.1:3000");
   loop {
     println!("waiting for vehicle tunnel to connect from external internet");
     let (mut vehicle_client, _vehicle_client_addr) = vehicle_listener.accept().await?;
