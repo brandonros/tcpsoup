@@ -1,6 +1,14 @@
 # tcpsoup
 Really confusing TCP tunnels
 
+## Goal
+
+`diag-client` wants to talk to `vehicle-server` but `vehicle-server` has port blocked. However, `vehicle` can reach `diag` port wise. Therefore, the flow of traffic must be intercepted and reversed.
+
+## TODO
+
+How to achieve this with `netcat`, `socat`, or equivalent instead?
+
 ## How to use
 
 `diag-tunnel-server` binds on `0.0.0.0:5555`, accepts connection from `vehicle-tunnel-client`
