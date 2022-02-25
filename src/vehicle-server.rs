@@ -18,13 +18,15 @@ async fn ping_route(_request_payload: web::Payload) -> Result<HttpResponse, Erro
 async fn main() -> std::io::Result<()> {
     std::env::set_var("RUST_LOG", "debug");
     env_logger::init();
-    println!("binding vehicle-server to 0.0.0.0:3000");
+    let vehicle_server_ip = "127.0.0.1";
+    let vehicle_server_port = 3000;
+    println!("binding vehicle-server to {}:{}", vehicle_server_ip, vehicle_server_port);
     HttpServer::new(|| {
         App::new()
             .wrap(Logger::new("%a \"%r\" %s %b \"%{Referer}i\" \"%{User-Agent}i\" %Dms"))
             .service(web::resource("/ping").route(web::get().to(ping_route)))
         })
-    .bind(("0.0.0.0", 3000))?
+    .bind((vehicle_server_ip, vehicle_server_port))?
     .run()
     .await
 }
