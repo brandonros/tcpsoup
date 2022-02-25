@@ -1,4 +1,3 @@
-#[macro_use]
 extern crate tokio;
 /* logging */
 extern crate log;
@@ -8,8 +7,6 @@ use tokio::io;
 use tokio::io::AsyncWriteExt;
 use tokio::net::{TcpListener};
 use std::error::Error;
-
-type BoxedError = Box<dyn std::error::Error + Sync + Send + 'static>;
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn Error>> {

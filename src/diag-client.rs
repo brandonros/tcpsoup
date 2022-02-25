@@ -7,10 +7,7 @@ extern crate env_logger;
 
 use std::str::FromStr;
 use hyper::{Request, Client, Body, Uri};
-use log::{trace};
 use std::error::Error;
-
-type BoxedError = Box<dyn std::error::Error + Sync + Send + 'static>;
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn Error>> {

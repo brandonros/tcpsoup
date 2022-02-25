@@ -1,4 +1,3 @@
-#[macro_use]
 extern crate tokio;
 /* logging */
 extern crate log;
@@ -38,5 +37,4 @@ async fn main() -> Result<(), Box<dyn Error>> {
     tokio::try_join!(diag_to_vehicle, vehicle_to_diag)?;
     println!("finished piping?");
   }
-  Ok(())
 }
