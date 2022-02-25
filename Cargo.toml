@@ -17,16 +17,16 @@ name = "diag-client"
 path = "src/diag-client.rs"
 
 [[bin]]
-name = "diag-tunnel"
-path = "src/diag-tunnel.rs"
+name = "diag-tunnel-server"
+path = "src/diag-tunnel-server.rs"
 
 [[bin]]
 name = "vehicle-server"
 path = "src/vehicle-server.rs"
 
 [[bin]]
-name = "vehicle-tunnel"
-path = "src/vehicle-tunnel.rs"
+name = "vehicle-tunnel-client"
+path = "src/vehicle-tunnel-client.rs"
 
 [profile.release]
 opt-level = 'z'     # Optimize for size.
