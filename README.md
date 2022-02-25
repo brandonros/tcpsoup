@@ -7,7 +7,7 @@ Really confusing TCP tunnels
 
 `diag-tunnel-server` also binds on `diag:127.0.0.1:3000` to intercept requests from `diag-client`
 
-`vehicle-tunnel-client` connects to `DIAG_TUNNEL_EXTERNAL_IP:55555` to receive requests from `diag-tunnel`
+`vehicle-tunnel-client` connects to `DIAG_TUNNEL_EXTERNAL_IP:55555` to receive requests from `diag-tunnel-server`
 
 `vehicle-tunnel-client` also connects to `vehicle-client:127.0.0.1:3000`
 
