@@ -26,14 +26,13 @@ async fn main() -> Result<(), Box<dyn Error>> {
       let (mut diag_client_recv, mut diag_client_send) = diag_client.split();
       println!("got diag request connection");
       println!("piping data");
-      let diag_to_vehicle = async {
-          io::copy(&mut diag_client_recv, &mut vehicle_client_send).await
-      };
-      let vehicle_to_diag = async {
-          io::copy(&mut vehicle_client_recv, &mut diag_client_send).await
-      };
-      tokio::try_join!(diag_to_vehicle, vehicle_to_diag)?;
-      diag_client_send.shutdown().await?;
+      tokio::select! {
+        _ = io::copy(&mut diag_client_recv, &mut vehicle_client_send) => {
+          diag_client_send.shutdown().await?;
+        }
+        _ = io::copy(&mut vehicle_client_recv, &mut diag_client_send) => {
+        }
+      }
       // TODO: which to shutdown?
       println!("diag connection finished?");
   }

@@ -4,7 +4,6 @@ extern crate log;
 extern crate env_logger;
 
 use tokio::io;
-use tokio::io::AsyncWriteExt;
 use tokio::net::{TcpStream};
 use std::error::Error;
 
@@ -26,13 +25,13 @@ async fn main() -> Result<(), Box<dyn Error>> {
   println!("connected to diag-tunnel-server");
   // 3. pipe
   println!("piping data");
-  let diag_to_vehicle = async {
-      io::copy(&mut diag_tunnel_remote_recv, &mut vehicle_remote_send).await
-  };
-  let vehicle_to_diag = async {
-      io::copy(&mut vehicle_remote_recv, &mut diag_tunnel_remote_send).await
-  };
-  tokio::try_join!(diag_to_vehicle, vehicle_to_diag)?;
+  tokio::select! {
+    _ = io::copy(&mut diag_tunnel_remote_recv, &mut vehicle_remote_send) => {
+
+    }
+    _ = io::copy(&mut vehicle_remote_recv, &mut diag_tunnel_remote_send) => {
+    }
+  }
   // TODO: which to shutdown?
   println!("finished piping?");
   Ok(())

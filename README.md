@@ -36,3 +36,9 @@ How to achieve this with `netcat`, `socat`, or equivalent instead?
 2. On vehicle machine: Start `vehicle-server`.
 3. On vehicle machine: Set `DIAG_TUNNEL_EXTERNAL_IP` then start `vehicle-tunnel-client`.
 4. On diag machine: Run `diag-client`, expect request to go to `diag-client -> diag-tunnel-server -> vehicle-tunnel-client -> vehicle-server` and back.
+
+netcat listener1 binds on diag:0.0.0.0:5555 -> accepts connection from vehicle-tunnel-client
+netcat listener2 bind on diag:127.0.0.1:3000 and pipes to vehicle-tunnel-client? (how to get access to the socket between netcat-listener1 and vehicle-tunnel-client)
+
+HTTP request to diag-client:127.0.0.1:3000 -> netcat listener on port 5555
+vehicle-tunnel-client receives request, sends to vehicle-server
