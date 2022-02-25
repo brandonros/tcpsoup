@@ -9,26 +9,27 @@ use std::error::Error;
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn Error>> {
   loop {
-    // 1. connect to diag proxy
-    println!("connecting to diag proxy");
-    let diag_proxy_address = std::env::var("DIAG_PROXY_ADDRESS").unwrap();
-    let mut diag_proxy_remote = TcpStream::connect(diag_proxy_address).await?;
-    let (mut diag_proxy_remote_recv, mut diag_proxy_remote_send) = diag_proxy_remote.split();
-    println!("connected to diag proxy");
-    // 2. connect to vehicle
+    // 1. connect to vehicle
     println!("connecting to vehicle client");
     let mut vehicle_remote = TcpStream::connect(&"127.0.0.1:3000".to_string()).await?;
     let (mut vehicle_remote_recv, mut vehicle_remote_send) = vehicle_remote.split();
-    println!("connecyed to vehicle client");
+    println!("connected to vehicle client");
+    // 2. connect to diag tunnel
+    println!("connecting to diag tunnel");
+    let diag_tunnel_external_ip = std::env::var("DIAG_TUNNEL_EXTERNAL_IP").unwrap();
+    let diag_tunnel_address = format!("{}:5555", diag_tunnel_external_ip);
+    let mut diag_tunnel_remote = TcpStream::connect(diag_tunnel_address).await?;
+    let (mut diag_tunnel_remote_recv, mut diag_tunnel_remote_send) = diag_tunnel_remote.split();
+    println!("connected to diag tunnel");
     // 3. pipe
     println!("piping data");
     let diag_to_vehicle = async {
-        io::copy(&mut diag_proxy_remote_recv, &mut vehicle_remote_send).await?;
+        io::copy(&mut diag_tunnel_remote_recv, &mut vehicle_remote_send).await?;
         vehicle_remote_send.shutdown().await
     };
     let vehicle_to_diag = async {
-        io::copy(&mut vehicle_remote_recv, &mut diag_proxy_remote_send).await?;
-        diag_proxy_remote_send.shutdown().await
+        io::copy(&mut vehicle_remote_recv, &mut diag_tunnel_remote_send).await?;
+        diag_tunnel_remote_send.shutdown().await
     };
     tokio::try_join!(diag_to_vehicle, vehicle_to_diag)?;
     println!("finished piping?");
