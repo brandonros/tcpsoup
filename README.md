@@ -3,7 +3,7 @@ Really confusing TCP tunnels
 
 ## How to use
 
-`diag-tunnel-server` binds on `0.0.0.0:5555`, acceps connection from `vehicle-tunnel-client`
+`diag-tunnel-server` binds on `0.0.0.0:5555`, accepts connection from `vehicle-tunnel-client`
 
 `diag-tunnel-server` also binds on `diag:127.0.0.1:3000` to intercept requests from `diag-client`
 
