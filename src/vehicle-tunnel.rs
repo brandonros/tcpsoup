@@ -3,7 +3,7 @@ extern crate tokio;
 
 use tokio::io;
 use tokio::io::AsyncWriteExt;
-use tokio::net::{TcpListener, TcpStream};
+use tokio::net::{TcpStream};
 use std::error::Error;
 
 #[tokio::main]
