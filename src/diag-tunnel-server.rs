@@ -28,9 +28,11 @@ async fn main() -> Result<(), Box<dyn Error>> {
       println!("piping data");
       tokio::select! {
         _ = io::copy(&mut diag_client_recv, &mut vehicle_client_send) => {
-          diag_client_send.shutdown().await?;
+          // diag_client_send.shutdown().await?;
+          println!("diag_client_recv finished");
         }
         _ = io::copy(&mut vehicle_client_recv, &mut diag_client_send) => {
+          println!("vehicle_client_recv finished");
         }
       }
       // TODO: which to shutdown?

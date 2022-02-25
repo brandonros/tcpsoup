@@ -27,9 +27,10 @@ async fn main() -> Result<(), Box<dyn Error>> {
   println!("piping data");
   tokio::select! {
     _ = io::copy(&mut diag_tunnel_remote_recv, &mut vehicle_remote_send) => {
-
+      println!("diag_tunnel_remote_recv finished");
     }
     _ = io::copy(&mut vehicle_remote_recv, &mut diag_tunnel_remote_send) => {
+      println!("vehicle_remote_recv finished");
     }
   }
   // TODO: which to shutdown?
