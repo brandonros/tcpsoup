@@ -14,7 +14,7 @@ git reset --hard
 git pull
 :: cleanup output
 del "C:\Users\Brandon\Desktop\tcpsoup\target\release\diag-tunnel-server.exe"
-del "C:\Users\Brandon\Desktop\tcpsoup\target\release\vehicle-tunnel-client.exe
+del "C:\Users\Brandon\Desktop\tcpsoup\target\release\vehicle-tunnel-client.exe"
 :: build vehicle
 cargo build --release
 EOF

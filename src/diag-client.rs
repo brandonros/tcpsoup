@@ -29,6 +29,6 @@ async fn main() -> Result<(), Box<dyn Error>> {
   let response = client.request(request).await.unwrap();
   println!("got response from diag-tunnel-server {}", response.status());
   let response_body_bytes = hyper::body::to_bytes(response.into_body()).await.unwrap();
-  trace!("{:?}ms {:?}", start_time.elapsed().as_millis(), response_body);
+  println!("{:?}ms {:?}", start_time.elapsed().as_millis(), response_body);
   Ok(())
 }
