@@ -13,10 +13,7 @@ use std::error::Error;
 async fn main() -> Result<(), Box<dyn Error>> {
   std::env::set_var("RUST_LOG", "debug");
   env_logger::init();
-  let mut connector = hyper::client::connect::HttpConnector::new();
-  //connector.set_keepalive(Some(std::time::Duration::from_millis(5000)));
-  let client = hyper::Client::builder()
-    .build::<_, hyper::Body>(connector);
+  let client = Client::new();
   loop {
     // fire request
     let server_ip = match std::env::var("SERVER_IP") {
@@ -34,7 +31,7 @@ async fn main() -> Result<(), Box<dyn Error>> {
     // start timer
     let start_time = std::time::Instant::now();
     let response = client.request(request).await.unwrap();
-    let duration = start_time.elapsed().as_millis();
+    let duration = start_time.elapsed().as_millis()
     println!("got response from diag-tunnel-server {}", response.status());
     let response_body_bytes = hyper::body::to_bytes(response.into_body()).await.unwrap();
     println!("{:?}ms {:?}", duration, response_body_bytes);
