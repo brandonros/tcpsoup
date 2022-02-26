@@ -14,7 +14,7 @@ async fn main() -> Result<(), Box<dyn Error>> {
   std::env::set_var("RUST_LOG", "debug");
   env_logger::init();
   let mut connector = hyper::client::connect::HttpConnector::new();
-  connector.set_keepalive(Some(std::time::Duration::from_millis(5000)));
+  //connector.set_keepalive(Some(std::time::Duration::from_millis(5000)));
   let client = hyper::Client::builder()
     .build::<_, hyper::Body>(connector);
   loop {
