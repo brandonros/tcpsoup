@@ -13,6 +13,8 @@ use std::error::Error;
 async fn main() -> Result<(), Box<dyn Error>> {
   std::env::set_var("RUST_LOG", "debug");
   env_logger::init();
+  // start timer
+  let start_time = Instant::now();
   // fire request
   let server_ip = String::from("127.0.0.1");
   let server_port = 3000;
@@ -27,6 +29,6 @@ async fn main() -> Result<(), Box<dyn Error>> {
   let response = client.request(request).await.unwrap();
   println!("got response from diag-tunnel-server {}", response.status());
   let response_body_bytes = hyper::body::to_bytes(response.into_body()).await.unwrap();
-  println!("{:?}", response_body_bytes);
+  trace!("{:?}ms {:?}", start_time.elapsed().as_millis(), response_body);
   Ok(())
 }
