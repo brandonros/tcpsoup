@@ -17,7 +17,10 @@ async fn main() -> Result<(), Box<dyn Error>> {
     // start timer
     let start_time = std::time::Instant::now();
     // fire request
-    let server_ip = String::from("127.0.0.1");
+    let server_ip = match std::env::var("SERVER_IP") {
+        Ok(env_var) => env_var,
+        Err(_) => String::from("127.0.0.1")
+    };
     let server_port = 3000;
     let request_url = format!("http://{}:{}/ping", server_ip, server_port);
     let client = Client::new();
