@@ -14,7 +14,7 @@ async fn main() -> Result<(), Box<dyn Error>> {
   std::env::set_var("RUST_LOG", "debug");
   env_logger::init();
   // start timer
-  let start_time = Instant::now();
+  let start_time = std::time::Instant::now();
   // fire request
   let server_ip = String::from("127.0.0.1");
   let server_port = 3000;

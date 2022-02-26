@@ -19,7 +19,6 @@ async fn main() -> Result<(), Box<dyn Error>> {
     let mut vehicle_remote = TcpStream::connect(&"127.0.0.1:3000".to_string()).await?;
     vehicle_remote.set_nodelay(true)?;
     let (mut vehicle_remote_recv, mut vehicle_remote_send) = vehicle_remote.split();
-
     println!("connected to vehicle-server");
     // 2. connect to diag tunnel
     let diag_tunnel_external_ip = std::env::var("DIAG_TUNNEL_EXTERNAL_IP").unwrap();
